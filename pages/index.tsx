@@ -4,10 +4,13 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { MainLayout } from '@/components/layout'
+import { NextPageWithLayout } from '@/models'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+// export const Home: NextPageWithLayout = function() {
+export const Home: NextPageWithLayout = () => {
   const router = useRouter()
 
   const goToDetailPage = () => {
@@ -120,3 +123,7 @@ export default function Home() {
     </>
   )
 }
+
+Home.Layout = MainLayout
+
+export default Home

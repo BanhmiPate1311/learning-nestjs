@@ -1,4 +1,5 @@
 import Header from '@/components/common/header'
+import { MainLayout } from '@/components/layout'
 // import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -55,6 +56,8 @@ export default function AboutPage(props: AboutPageProps) {
     </div>
   )
 }
+
+AboutPage.Layout = MainLayout
 
 export async function getStaticProps() {
   console.log('get static prop')
