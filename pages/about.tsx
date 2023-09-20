@@ -1,8 +1,8 @@
-import Header from '@/components/common/header'
-import { MainLayout } from '@/components/layout'
+import Header from '@/components/common/header';
+import { AdminLayout, MainLayout } from '@/components/layout';
 // import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 // tsdrp
 
 // const Header = dynamic(() => import('@/components/common/header'), { ssr: false }) // không render bên phía server
@@ -10,22 +10,22 @@ import React, { useEffect, useState } from 'react'
 export interface AboutPageProps {}
 
 export default function AboutPage(props: AboutPageProps) {
-  const [postList, setPostList] = useState([])
-  const router = useRouter()
+  const [postList, setPostList] = useState([]);
+  const router = useRouter();
 
-  console.log('About query: ', router.query)
-  const page = router.query?.page
+  console.log('About query: ', router.query);
+  const page = router.query?.page;
 
   useEffect(() => {
     // Check query available
-    if (!page) return
-    ;(async () => {
-      const response = await fetch(`https://js-post-api.herokuapp.com/api/posts?_page=${page}`)
-      const data = await response.json()
-      setPostList(data.data)
+    if (!page) return;
+    (async () => {
+      const response = await fetch(`https://js-post-api.herokuapp.com/api/posts?_page=${page}`);
+      const data = await response.json();
+      setPostList(data.data);
       // useSWR
-    })()
-  }, [page])
+    })();
+  }, [page]);
 
   const handleNextClick = () => {
     router.push(
@@ -36,9 +36,9 @@ export default function AboutPage(props: AboutPageProps) {
         },
       },
       undefined,
-      { shallow: true }, // không chạy lại getstaticprop nữa, chỉ chạy trên phía client
-    )
-  }
+      { shallow: true }, // không chạy lại getstaticProp nữa, chỉ chạy trên phía client
+    );
+  };
 
   //JSON.parse($0.text)
 
@@ -54,17 +54,17 @@ export default function AboutPage(props: AboutPageProps) {
 
       <button onClick={handleNextClick}>Next Page</button>
     </div>
-  )
+  );
 }
 
-AboutPage.Layout = MainLayout
+AboutPage.Layout = AdminLayout;
 
 export async function getStaticProps() {
-  console.log('get static prop')
+  console.log('get static prop');
 
   return {
     props: {},
-  }
+  };
 }
 
 // export async function getServerSideProps(context) {

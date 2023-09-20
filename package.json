@@ -9,18 +9,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.9",
+    "@mui/material": "^5.14.10",
     "@types/node": "20.5.6",
-    "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "axios": "^1.5.0",
+    "cookies": "^0.8.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "http-proxy": "^1.18.1",
     "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "swr": "^2.2.2",
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@types/http-proxy": "^1.17.12"
+    "@types/axios": "^0.14.0",
+    "@types/cookies": "^0.7.8",
+    "@types/http-proxy": "^1.17.12",
+    "@types/react": "^18.2.22"
   }
 }
