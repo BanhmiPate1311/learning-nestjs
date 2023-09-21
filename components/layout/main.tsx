@@ -1,15 +1,18 @@
-import { LayoutProps } from '@/models'
-import Link from 'next/link'
-import * as React from 'react'
+import { LayoutProps } from '@/models';
+import { Box, Stack } from '@mui/material';
+import { Footer, Header } from '../common';
 //tsrpfc
 
 export function MainLayout({ children }: LayoutProps) {
   return (
-    <div>
-      <h1>Main Layout</h1>
-      <Link href="/">Home</Link>
-      <Link href="/about">About</Link>
-      <div>{children}</div>
-    </div>
-  )
+    <Stack minHeight="100vh">
+      <Header />
+
+      <Box component="main" flexGrow={1}>
+        {children}
+      </Box>
+
+      <Footer />
+    </Stack>
+  );
 }

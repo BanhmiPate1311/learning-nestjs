@@ -1,0 +1,8 @@
+.mui-link {
+  color: black;
+  &:hover,
+  &.active {
+    color: #ff6464;
+    /* text-decoration: underline; */
+  }
+}
