@@ -27,7 +27,7 @@ export function HeroSection() {
             </Button>
           </Box>
           <Box sx={{ minWidth: '240px', boxShadow: '-5px 13px', color: 'secondary.light', borderRadius: '50%' }}>
-            <Image src={avatar} layout="responsive" alt="avatar" style={{ display: 'block' }} />
+            <Image src={avatar} layout="responsive" priority alt="avatar" style={{ display: 'block' }} />
           </Box>
         </Stack>
       </Container>

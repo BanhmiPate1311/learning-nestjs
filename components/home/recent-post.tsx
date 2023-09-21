@@ -2,8 +2,28 @@ import { Box, Container, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 import { PostCard } from './post-card';
+import { Post } from '@/models';
 
 export function RecentPosts() {
+  // call API to get recent posts
+  const postList: Post[] = [
+    {
+      id: '1',
+      title: 'Lorem ipsum dolor sit amet consectetur.',
+      publishedDate: '1695312871845',
+      tagList: ['Design', 'Pattern'],
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam optio, error, necessitatibus voluptatem delectus ratione, adipisci ducimus alias aspernatur enim consequatur?',
+    },
+    {
+      id: '2',
+      title: 'Lorem ipsum dolor sit amet consectetur.',
+      publishedDate: '1695312871847',
+      tagList: ['Figma', 'Icon Design'],
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam optio, error, necessitatibus voluptatem delectus ratione, adipisci ducimus alias aspernatur enim consequatur?',
+    },
+  ];
   return (
     <Box component="section" bgcolor="secondary.light" pt={2} pb={4}>
       <Container>
@@ -30,12 +50,11 @@ export function RecentPosts() {
             },
           }}
         >
-          <Box>
-            <PostCard />
-          </Box>
-          <Box>
-            <PostCard />
-          </Box>
+          {postList.map((post) => (
+            <Box key={post.id}>
+              <PostCard post={post} />
+            </Box>
+          ))}
         </Stack>
       </Container>
     </Box>
