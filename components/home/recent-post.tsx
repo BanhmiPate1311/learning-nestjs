@@ -9,16 +9,18 @@ export function RecentPosts() {
   const postList: Post[] = [
     {
       id: '1',
+      slug: '',
       title: 'Lorem ipsum dolor sit amet consectetur.',
-      publishedDate: '1695312871845',
+      publishedDate: '2023-09-22T10:00:00Z',
       tagList: ['Design', 'Pattern'],
       description:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam optio, error, necessitatibus voluptatem delectus ratione, adipisci ducimus alias aspernatur enim consequatur?',
     },
     {
       id: '2',
+      slug: '',
       title: 'Lorem ipsum dolor sit amet consectetur.',
-      publishedDate: '1695312871847',
+      publishedDate: '2023-09-22T10:00:00Z',
       tagList: ['Figma', 'Icon Design'],
       description:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam optio, error, necessitatibus voluptatem delectus ratione, adipisci ducimus alias aspernatur enim consequatur?',

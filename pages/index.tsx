@@ -1,3 +1,4 @@
+import { Seo } from '@/components/common';
 import { FeatureWorks, HeroSection, RecentPosts } from '@/components/home';
 import { MainLayout } from '@/components/layout';
 import { NextPageWithLayout } from '@/models';
@@ -18,6 +19,15 @@ export const Home: NextPageWithLayout = () => {
   // };
   return (
     <Box>
+      <Seo
+        data={{
+          title: 'Nextjs | Easy frontend',
+          description: 'Step by step tutorials to build a full CURD website using Nextjs for beginer',
+          url: 'https://learning-nestjs.vercel.app/',
+          thumbnailUrl:
+            'https://e7.pngegg.com/pngimages/515/775/png-clipart-lovely-cat-waving-cats-paw-cat-thumbnail.png',
+        }}
+      />
       <HeroSection />
       <RecentPosts />
       <FeatureWorks />
