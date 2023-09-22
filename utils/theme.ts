@@ -70,7 +70,7 @@ export let theme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          paddingInline: 2,
+          paddingInline: 2, // set cho tất cả MuiChip
         },
       },
       variants: [
@@ -78,7 +78,7 @@ export let theme = createTheme({
           props: { color: 'secondary' },
           style: {
             color: 'white',
-            backgroundColor: '#142850',
+            backgroundColor: '#142850', // chỉ set cho MuiChip có prop secondary
             fontSize: 16,
             fontWeight: 'bold',
           },
