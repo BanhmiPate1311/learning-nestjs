@@ -1,6 +1,6 @@
 import { Work } from '@/models';
 import { Box, Divider } from '@mui/material';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { WorkCard } from './work-card';
 
 export interface WorkListProps {

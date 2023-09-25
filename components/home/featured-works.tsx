@@ -1,8 +1,6 @@
-import { Box, Container, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
+import { Work } from '@/models';
+import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
-import { PostCard } from './post-card';
-import { Post, Work } from '@/models';
 import { WorkList } from '../work';
 
 export function FeatureWorks() {

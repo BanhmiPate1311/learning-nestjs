@@ -3,6 +3,7 @@ import { FeatureWorks, HeroSection, RecentPosts } from '@/components/home';
 import { MainLayout } from '@/components/layout';
 import { NextPageWithLayout } from '@/models';
 import { Box } from '@mui/material';
+import React from 'react';
 
 // export const Home: NextPageWithLayout = function() {
 export const Home: NextPageWithLayout = () => {

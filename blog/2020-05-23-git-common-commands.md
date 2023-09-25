@@ -5,6 +5,7 @@ author: Hậu Nguyễn
 author_title: Senior Software Engineer at fram^
 author_url: https://github.com/paulnguyen-mn
 author_image_url: https://avatars3.githubusercontent.com/u/31444102?s=400&u=c545a527aa31843e1361462e410c0f51863e8e26&v=4
+image: https://images.unsplash.com/photo-1549923746-c502d488b3ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80
 tags: [git, git trong dự án thực tế]
 date: '2023-09-22T10:00:00Z'
 ---
@@ -13,7 +14,23 @@ Khi nhắc tới git có khá là nhiều lệnh khác nhau, tuy nhiên trong th
 
 <!-- truncate-->
 
+## Agenda
+
 ## 0. Nhận task, ví dụ ở đây task có id là 123
+
+```js[class="line-numbers"]
+function hello(){
+    console.log('Hello World');
+}
+```
+
+```tsx[data-line="1-2,4"]
+function App(){
+    const [title, setTitle] = useState<string>('Learn NextJs);
+
+    return <p>{title}</p>
+}
+```
 
 - Tí nữa, đọc thấy tạo nhánh có số 123 thì các bạn hiểu ngầm nó chính là `taskId` nhen.
 - Ví dụ team mình dev trên nhánh `develop`.

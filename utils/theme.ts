@@ -58,6 +58,12 @@ export let theme = createTheme({
       },
     },
     MuiButton: {
+      // styleOverrides: {
+      //   root: {
+      //     background: '#df0f0f', // set cho tất cả MuiButton
+      //     color: 'white',
+      //   },
+      // },
       variants: [
         {
           props: { variant: 'contained', color: 'primary' },

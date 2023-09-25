@@ -1,13 +1,14 @@
 import { authApi } from '@/api-client';
+import { LoginPayLoad, UserProfile } from '@/models';
 import useSWR from 'swr';
-import { PublicConfiguration } from 'swr/_internal';
+import { PublicConfiguration, SWRConfiguration } from 'swr/_internal';
 
 // Auth --> Protected Pages
 // <Auth>{children}</Auth>
-export const useAuth = (options?: Partial<PublicConfiguration>) => {
+export const useAuth = (options?: Partial<SWRConfiguration>) => {
   // profile
   //
-  const {data: profile, error, mutate } = useSWR('/profile', {
+  const {data: profile, error, mutate } = useSWR<UserProfile | null>('/profile', {
     dedupingInterval: 60 * 60 * 1000,
     revalidateOnFocus: false,
     ...options,
@@ -17,11 +18,8 @@ export const useAuth = (options?: Partial<PublicConfiguration>) => {
 
   const firstLoading = profile === undefined && error === undefined;
 
-  const login = async () => {
-    await authApi.login({
-      username: 'test',
-      password: '123123',
-    });
+  const login = async (payload: LoginPayLoad) => {
+    await authApi.login(payload);
 
     await mutate();
   };

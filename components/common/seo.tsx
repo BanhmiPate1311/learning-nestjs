@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import * as React from 'react';
+import React from 'react';
 
 export interface SeoData {
   title: string;
@@ -17,7 +17,7 @@ export function Seo({ data }: SeoProps) {
   return (
     <Head>
       {/* <!-- Primary Meta Tags --> */}
-      <title>Nextjs | Easy frontend</title>
+      <title>{title}</title>
       <meta name="title" content={title} />
       <meta name="description" content={description} />
 

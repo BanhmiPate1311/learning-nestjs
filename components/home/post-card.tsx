@@ -1,5 +1,6 @@
 import { Post } from '@/models';
 import { Card, CardContent } from '@mui/material';
+import React from 'react';
 import { PostItem } from '../blog';
 
 export interface PostCardProps {

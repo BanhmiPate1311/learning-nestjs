@@ -1,9 +1,9 @@
-import { authApi } from '@/api-client';
+import { LoginForm } from '@/components/auth';
 import { useAuth } from '@/hooks';
+import { LoginPayLoad } from '@/models';
+import { Box, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import * as React from 'react';
-
-export interface LoginPageProps {}
+import React from 'react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,41 +11,34 @@ export default function LoginPage() {
     revalidateOnMount: false,
   });
 
-  async function handleLoginClick() {
+  async function handleLoginSubmit(payload: LoginPayLoad) {
     try {
-      await login();
-      console.log('redirect to dashboard');
-      router.push('/about');
+      await login(payload);
+      // console.log('redirect to dashboard');
+      router.push('/');
     } catch (error) {
       console.log('failed to login', error);
     }
   }
-  async function handleGetProfileClick() {
-    try {
-      await authApi.getProfile();
-    } catch (error) {
-      console.log('failed to get profile', error);
-    }
-  }
-
-  async function handleLogoutClick() {
-    try {
-      await logout();
-      console.log('redirect to login page');
-    } catch (error) {
-      console.log('failed to logout', error);
-    }
-  }
 
   return (
-    <div>
-      <h1>Login Page</h1>
+    <Box>
+      <Paper
+        elevation={4}
+        sx={{
+          m: 'auto',
+          my: 8,
+          p: 4,
+          maxWidth: '480px',
+          textAlign: 'center',
+        }}
+      >
+        <Typography component="h1" variant="h5" mb={3}>
+          Login Page
+        </Typography>
 
-      <p>Profile: {JSON.stringify(profile || {}, null, 4)}</p>
-
-      <button onClick={handleLoginClick}>Login</button>
-      <button onClick={handleGetProfileClick}>Get Profile</button>
-      <button onClick={handleLogoutClick}>Logout</button>
-    </div>
+        <LoginForm onSubmit={handleLoginSubmit} />
+      </Paper>
+    </Box>
   );
 }

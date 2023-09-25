@@ -2,6 +2,7 @@ import { Work } from '@/models';
 import { Box, Chip, Stack, Typography } from '@mui/material';
 import moment from 'moment';
 import Image from 'next/image';
+import React from 'react';
 
 export interface WorkCardProps {
   work: Work;

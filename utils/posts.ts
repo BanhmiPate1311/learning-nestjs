@@ -21,6 +21,7 @@ export async function getPostList(): Promise<Post[]> {
       id: fileName,
       slug: data.slug,
       title: data.title,
+      thumbnailUrl: data.image,
       author: {
         name: data.author,
         title: data.author_title,

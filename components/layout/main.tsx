@@ -1,5 +1,6 @@
 import { LayoutProps } from '@/models';
 import { Box, Stack } from '@mui/material';
+import React from 'react';
 import { Footer, Header } from '../common';
 //tsrpfc
 
