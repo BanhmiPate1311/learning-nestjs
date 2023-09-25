@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ROUTE_LIST } from './routes';
 
 export interface HeaderDesktopProps {}
@@ -15,6 +15,17 @@ export function HeaderDesktop(props: HeaderDesktopProps) {
   const isLoggedIn = Boolean(profile?.username);
 
   const routeList = ROUTE_LIST.filter((route) => !route.requireLogin || isLoggedIn);
+  // const [routeList, setRouteList] = useState(() => ROUTE_LIST.filter((route) => !route.requireLogin));
+
+  // server render menu not required Login (A)
+  // client - first render menu not required login (B)
+  // client - useEffect render second time menu required login
+
+  // useEffect(() => {
+  // after the first render
+  // calc routeList and setRoute
+  //   setRouteList(ROUTE_LIST.filter((route) => !route.requireLogin || isLoggedIn));
+  // }, [isLoggedIn]);
 
   return (
     <Box display={{ xs: 'none', md: 'block' }} py={2}>

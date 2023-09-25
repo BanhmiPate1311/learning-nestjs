@@ -1,6 +1,7 @@
 import { LoginForm } from '@/components/auth';
 import { useAuth } from '@/hooks';
 import { LoginPayLoad } from '@/models';
+import { getErrorMessage } from '@/utils';
 import { Box, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -17,7 +18,8 @@ export default function LoginPage() {
       // console.log('redirect to dashboard');
       router.push('/');
     } catch (error) {
-      console.log('failed to login', error);
+      const message = getErrorMessage(error);
+      console.log('failed to login', message);
     }
   }
 

@@ -1,8 +1,12 @@
 import { LayoutProps } from '@/models';
 import { Box, Stack } from '@mui/material';
 import React from 'react';
-import { Footer, Header } from '../common';
+import { Footer } from '../common';
+import dynamic from 'next/dynamic';
+
 //tsrpfc
+
+const Header = dynamic(() => import('@/components/common/header'), { ssr: false });
 
 export function MainLayout({ children }: LayoutProps) {
   return (
