@@ -5,6 +5,7 @@ import { getErrorMessage } from '@/utils';
 import { Box, Paper, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,9 +18,9 @@ export default function LoginPage() {
       await login(payload);
       // console.log('redirect to dashboard');
       router.push('/');
-    } catch (error) {
+    } catch (error: unknown) {
       const message = getErrorMessage(error);
-      console.log('failed to login', message);
+      toast.error(message);
     }
   }
 

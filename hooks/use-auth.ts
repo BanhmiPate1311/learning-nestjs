@@ -1,8 +1,7 @@
 import { authApi } from '@/api-client';
 import { StorageKeys } from '@/constants';
 import { LoginPayLoad, UserProfile } from '@/models';
-import useSWR from 'swr';
-import { PublicConfiguration, SWRConfiguration } from 'swr/_internal';
+import useSWR, { SWRConfiguration } from 'swr';
 
 function getUserInfo(): UserProfile | null {
   try {
@@ -34,7 +33,7 @@ export const useAuth = (options?: Partial<SWRConfiguration>) => {
     }
   }); // prettier-ignore
 
-  console.log({ profile, error });
+  // console.log({ profile, error });
 
   const firstLoading = profile === undefined && error === undefined;
 
