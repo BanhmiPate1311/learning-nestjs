@@ -2,18 +2,20 @@ import { WorkFiltersPayload } from '@/models';
 import { Search } from '@mui/icons-material';
 import { Box, InputAdornment, debounce } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { InputField } from '../form';
+import { AutocompleteField, InputField } from '../form';
 import { ChangeEvent } from 'react';
 
 export interface WorkFiltersProps {
+  initialValues?: WorkFiltersPayload;
   onSubmit?: (payload: WorkFiltersPayload) => void;
 }
 
-export function WorkFilters({ onSubmit }: WorkFiltersProps) {
+export function WorkFilters({ initialValues, onSubmit }: WorkFiltersProps) {
   //   const schema = yup.object().shape({});
   const { control, handleSubmit } = useForm<WorkFiltersPayload>({
     defaultValues: {
       search: '',
+      ...initialValues,
     },
     // resolver: yupResolver(schema),
   });
@@ -42,6 +44,16 @@ export function WorkFilters({ onSubmit }: WorkFiltersProps) {
           console.log('change', event.target.value);
           debounceSearchChange();
         }}
+      />
+
+      <AutocompleteField
+        name="selectedTagList"
+        label="filter by category"
+        placeholder="Categories"
+        control={control}
+        options={[{ title: '', key: '' }]}
+        getOptionLabel={(option) => 'option.key'}
+        isOptionEqualToValue={(option, value) => option.key === value.key}
       />
     </Box>
   );
