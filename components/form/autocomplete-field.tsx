@@ -9,7 +9,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export type AutocompleteFieldProps<T, K extends FieldValues> = Partial<
-  AutocompleteProps<T, boolean, boolean, boolean>
+  AutocompleteProps<T, boolean, boolean, undefined>
 > & {
   name: Path<K>;
   control: Control<K>;
@@ -19,12 +19,13 @@ export type AutocompleteFieldProps<T, K extends FieldValues> = Partial<
 
   options: T[];
   getOptionLabel: (option: T) => string; // nhận vào 1 option có kiểu dữ liệu T và trả về 1 string để render lên giao diện
+  onChange: (selectedOptions: T[]) => void;
 };
 
 export function AutocompleteField<T, K extends FieldValues>({
   name,
   control,
-  // onChange: externalOnChange, // không cho user overide lại các thuộc tính này
+  onChange: externalOnChange, // không cho user overide lại các thuộc tính này
   // onBlur: externalOnBlur,
   // ref: externalRef,
   // value: externalValue,
@@ -60,8 +61,23 @@ export function AutocompleteField<T, K extends FieldValues>({
         </li>
       )}
       renderInput={(params) => (
-        <TextField margin="normal" name={name} {...params} label="Filter by category" placeholder={placeholder} />
+        <TextField
+          margin="normal"
+          name={name}
+          {...params}
+          label="Filter by category"
+          placeholder={placeholder}
+          error={!!error}
+          helperText={error?.message}
+        />
       )}
+      onChange={(event, value) => {
+        onChange(value);
+        externalOnChange?.(value);
+      }}
+      onBlur={onBlur}
+      value={value}
+      ref={ref}
     />
   );
 }

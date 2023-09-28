@@ -1,41 +1,45 @@
 import { MainLayout } from '@/components/layout';
 import { WorkList } from '@/components/work';
 import { WorkFilters } from '@/components/work/work-filters';
-import { useWorkList } from '@/hooks';
-import { ListParams, WorkFiltersPayload } from '@/models';
-import { Box, Pagination, Skeleton, Stack, Typography } from '@mui/material';
+import { useWorkListInfinity } from '@/hooks';
+import { ListParams, ListResponse, Work, WorkFiltersPayload } from '@/models';
+import { Box, Button, CircularProgress, Skeleton, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 export interface WorksPageProps {}
 
 export default function WorksPage(props: WorksPageProps) {
   const router = useRouter();
-  const filters: Partial<ListParams> = { _page: 1, _limit: 3, ...router.query };
+  const filters: Partial<ListParams> = { ...router.query };
 
   const initFiltersPayload: WorkFiltersPayload = {
     search: filters.title_like || '',
     selectedTagList: filters.tagList_like !== '' ? filters.tagList_like?.split('|') : [],
   };
-  console.log('page render', { search: filters.title_like, isReady: router.isReady });
-  const { data, isLoading } = useWorkList({ params: filters, enabled: router.isReady });
+  // console.log('page render', { search: filters.title_like, isReady: router.isReady });
+  const { data, isLoading, isValidating, size, setSize } = useWorkListInfinity({
+    params: filters,
+    enabled: router.isReady,
+  });
+  // data: [ responsePage1, responsePage2 ]
+  // responsePage1: { data, pagination }
+  // workList = [ ...data1, ...data2, ...dataN ]
+  const workList: Array<Work> =
+    data?.reduce((result: Array<Work>, currentPage: ListResponse<Work>) => {
+      result.push(...currentPage.data);
+      return result;
+    }, []) || [];
 
-  const { _limit, _totalRows, _page } = data?.pagination || {};
-  const totalPages = Boolean(_totalRows) ? Math.ceil(_totalRows / _limit) : 0;
+  const totalRows = data?.[0]?.pagination?._totalRows || 0;
+  const showLoadMore = totalRows > workList.length;
+  const loadingMore = isValidating && workList.length > 0;
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: {
-          ...filters,
-          _page: value,
-        },
-      },
-      undefined,
-      { shallow: true }, // không chạy lại getstaticProp nữa, chỉ chạy trên phía client
-    );
-  };
+  const { ref } = useInView({
+    onChange(inView, entry) {
+      if (inView) setSize((x) => x + 1);
+    },
+  });
 
   const handleFilterChange = (newFilter: WorkFiltersPayload) => {
     router.push(
@@ -43,7 +47,6 @@ export default function WorksPage(props: WorksPageProps) {
         pathname: router.pathname,
         query: {
           ...filters,
-          _page: 1,
           title_like: newFilter.search,
           tagList_like: newFilter.tagList_like,
         },
@@ -68,12 +71,12 @@ export default function WorksPage(props: WorksPageProps) {
         <Skeleton variant="rectangular" height={40} sx={{ display: 'inline-block', width: '100%', mt: 2, mb: 1 }} />
       )}
 
-      <WorkList workList={data?.data || []} loading={!router.isReady || isLoading} />
+      <WorkList workList={workList} loading={!router.isReady || isLoading} />
 
-      {totalPages > 0 && (
-        <Stack alignItems="center">
-          <Pagination count={totalPages} page={_page} onChange={handlePageChange}></Pagination>
-        </Stack>
+      {showLoadMore && (
+        <Button ref={ref} variant="contained" onClick={() => setSize((x) => x + 1)} disabled={loadingMore}>
+          Load more {loadingMore && <CircularProgress size={24} />}
+        </Button>
       )}
     </Box>
   );
