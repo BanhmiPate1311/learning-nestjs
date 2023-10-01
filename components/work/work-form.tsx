@@ -1,72 +1,98 @@
-import { WorkFiltersPayload } from '@/models';
-import { Search } from '@mui/icons-material';
-import { Box, InputAdornment, debounce } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { AutocompleteField, InputField } from '../form';
-import { ChangeEvent } from 'react';
 import { useTagList } from '@/hooks';
+import { WorkPayload } from '@/models';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button } from '@mui/material';
+import { Resolver, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { AutocompleteField, EditorField, InputField, PhotoField } from '../form';
+import React, { useState } from 'react';
 
-export interface WorkFiltersProps {
-  initialValues?: WorkFiltersPayload;
-  onSubmit?: (payload: WorkFiltersPayload) => void;
+export interface WorkFormProps {
+  initialValues?: Partial<WorkPayload>;
+  onSubmit?: (payload: Partial<WorkPayload>) => void;
 }
 
-export function WorkFilters({ initialValues, onSubmit }: WorkFiltersProps) {
-  //   const schema = yup.object().shape({});
+export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
+  const schema = yup.object().shape({
+    title: yup.string().required('Please enter your work title'),
+    shortDescription: yup.string().required('Please enter your work description'),
+    tagList: yup.array().of(yup.string()).min(1, 'Please select atleast one category'),
+    thumbnail: yup
+      .object()
+      .nullable()
+      .test('test-required', 'Maximum size exceeded. Please select another file.', (value: any, context) => {
+        // require when add
+        // optional when edit
+        if (Boolean(initialValues?.id) || Boolean(value?.file)) return true;
+        // return context.createError({ message: 'Please select an image' });
+        return false;
+      })
+      .test('test-size', 'Maximum size exceeded. Please select another file.', (value: any) => {
+        // limit size to 3MB
+        console.log('test size', value);
+        const fileSize = value?.file?.['size'] || 0;
+        const MB_TO_BYTES = 1024 * 1024;
+        const MAX_SIZE = 3 * MB_TO_BYTES; // 3MB
+        return fileSize <= MAX_SIZE;
+      }),
+  });
 
   const { data } = useTagList({});
   const tagList = data?.data || [];
 
-  const { control, handleSubmit } = useForm<WorkFiltersPayload>({
+  const { control, handleSubmit } = useForm<Partial<WorkPayload>>({
     defaultValues: {
-      search: '',
-      selectedTagList: [],
+      title: '', // nếu không đặt defaul value sẽ bị báo lỗi component chuyển từ uncontroll sang controlled
+      shortDescription: '',
+      tagList: [],
+      thumbnail: initialValues?.id
+        ? {
+            file: null,
+            previewUrl: initialValues.thumbnailUrl,
+          }
+        : null,
+      fullDescription: '',
       ...initialValues,
     },
-    // resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as Resolver<Partial<WorkPayload>, any>,
   });
 
-  const handleLoginSubmit = async (payload: WorkFiltersPayload) => {
+  const handleLoginSubmit = async (payload: Partial<WorkPayload>) => {
     console.log('form submit', payload);
 
     if (!payload) return;
-
-    payload.tagList_like = payload.selectedTagList?.join('|') || '';
-    delete payload.selectedTagList;
-    await onSubmit?.(payload); // phải có await để sử dụng isSubmitting
   };
-
-  const debounceSearchChange = debounce(handleSubmit(handleLoginSubmit), 350);
 
   return (
     <Box component="form" onSubmit={handleSubmit(handleLoginSubmit)}>
+      <InputField name="title" label="Title" placeholder="Your Work Title" control={control} />
+
       <InputField
-        placeholder="Search work by title"
-        name="search"
+        name="shortDescription"
+        label="Short description"
+        placeholder="Your work description"
         control={control}
         InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          console.log('change', event.target.value);
-          debounceSearchChange();
+          multiline: true,
+          rows: 3,
         }}
       />
 
       <AutocompleteField
-        name="selectedTagList"
-        label="filter by category"
-        placeholder="Categories"
+        name="tagList"
+        label="Categoríe"
         control={control}
         options={tagList}
         getOptionLabel={(option) => option}
         isOptionEqualToValue={(option, value) => option === value}
-        onChange={() => debounceSearchChange()}
       />
+
+      <PhotoField name="thumbnail" control={control} label="Thumbnail" />
+      <EditorField name="fullDescription" control={control} label="Full Description" />
+
+      <Button variant="contained" type="submit">
+        {initialValues?.id ? 'Save' : 'Submit'}
+      </Button>
     </Box>
   );
 }

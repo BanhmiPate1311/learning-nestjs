@@ -1,5 +1,5 @@
 import { MainLayout } from '@/components/layout';
-import { WorkList } from '@/components/work';
+import { WorkForm, WorkList } from '@/components/work';
 import { WorkFilters } from '@/components/work/work-filters';
 import { useWorkDetails, useWorkList } from '@/hooks';
 import { ListParams, WorkFiltersPayload } from '@/models';
@@ -14,12 +14,12 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
   const { workId } = router.query;
   const isAddMode = workId === 'add';
 
-  const { data, isLoading } = useWorkDetails({
+  const { data: workDetails, isLoading } = useWorkDetails({
     workId: (workId as string) || '',
     enabled: router.isReady && !isAddMode,
   });
 
-  console.log({ workId, isAddMode, ready: router.isReady, data });
+  console.log({ workDetails, isLoading });
   return (
     <Box>
       <Box mb={4} mt={8}>
@@ -32,6 +32,11 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
         officia quibusdam, deleniti impedit tempore ea. Necessitatibus nostrum cum, suscipit atque vero inventore
         dolorum.
       </Box>
+      {(isAddMode || workDetails) && (
+        <Box>
+          <WorkForm initialValues={workDetails} onSubmit={() => {}} />
+        </Box>
+      )}
     </Box>
   );
 }

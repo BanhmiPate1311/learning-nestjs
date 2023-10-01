@@ -19,7 +19,7 @@ export type AutocompleteFieldProps<T, K extends FieldValues> = Partial<
 
   options: T[];
   getOptionLabel: (option: T) => string; // nhận vào 1 option có kiểu dữ liệu T và trả về 1 string để render lên giao diện
-  onChange: (selectedOptions: T[]) => void;
+  onChange?: (selectedOptions: T[]) => void;
 };
 
 export function AutocompleteField<T, K extends FieldValues>({
