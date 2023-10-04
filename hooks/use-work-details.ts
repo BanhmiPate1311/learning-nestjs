@@ -15,5 +15,10 @@ export function useWorkDetails({ workId, options, enabled = true }: UseWorkDetai
     fallbackData: null,
     ...options,
   });
-  return swrResponse;
+
+  async function updateWork(payload: FormData) {
+    const newWork = await workApi.update(payload);
+    swrResponse.mutate();
+  }
+  return { ...swrResponse, updateWork };
 }

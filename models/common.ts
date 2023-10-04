@@ -11,6 +11,7 @@ export interface LayoutProps {
 
 export type NextPageWithLayout = NextPage & {
   Layout?: (props: LayoutProps) => ReactElement;
+  requireLogin?: Boolean;
 };
 
 export type AppPropsWithLayout = AppProps & {

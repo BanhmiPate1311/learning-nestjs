@@ -1,4 +1,5 @@
 import axiosClient from '@/api-client/axios-client';
+import { Auth } from '@/components/common';
 import { EmptyLayout } from '@/components/layout';
 import { AppPropsWithLayout } from '@/models';
 import '@/styles/custom.css';
@@ -25,7 +26,9 @@ export default function App({ Component, pageProps, emotionCache = clientSideEmo
         <ToastContainer />
         <SWRConfig value={{ fetcher: (url) => axiosClient.get(url), shouldRetryOnError: false }}>
           <Layout>
-            <Component {...pageProps} />
+            <Auth requireLogin={Component.requireLogin ?? false}>
+              <Component {...pageProps} />
+            </Auth>
           </Layout>
         </SWRConfig>
       </ThemeProvider>

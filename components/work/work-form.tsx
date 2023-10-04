@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 
 export interface WorkFormProps {
   initialValues?: Partial<WorkPayload>;
-  onSubmit?: (payload: Partial<WorkPayload>) => void;
+  onSubmit?: (payload: FormData) => void;
 }
 
 export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
@@ -57,10 +57,36 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
     resolver: yupResolver(schema) as Resolver<Partial<WorkPayload>, any>,
   });
 
-  const handleLoginSubmit = async (payload: Partial<WorkPayload>) => {
-    console.log('form submit', payload);
+  const handleLoginSubmit = async (formValues: Partial<WorkPayload>) => {
+    if (!formValues) return;
+    const payload = new FormData();
 
-    if (!payload) return;
+    // id
+    if (formValues.id) {
+      payload.set('id', formValues.id);
+    }
+
+    // thumbnail
+    if (formValues.thumbnail?.file) {
+      payload.set('thumbnail', formValues.thumbnail?.file);
+    }
+
+    // tagList
+    formValues.tagList?.forEach((tag) => {
+      payload.append('tagList', tag);
+    });
+
+    // title, short description, full description
+    const keyList: Array<keyof Partial<WorkPayload>> = ['title', 'shortDescription', 'fullDescription'];
+    keyList.forEach((name) => {
+      if (initialValues?.[name] !== formValues[name]) {
+        payload.set(name, formValues[name] as string);
+      }
+    });
+
+    console.log('form submit: ', formValues);
+
+    await onSubmit?.(payload);
   };
 
   return (
