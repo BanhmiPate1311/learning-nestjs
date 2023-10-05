@@ -45,6 +45,8 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
       console.log('error: ', error);
     }
   }
+
+  if (!router.isReady) return false;
   return (
     <Box>
       <Container>

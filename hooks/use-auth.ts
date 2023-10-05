@@ -45,9 +45,9 @@ export const useAuth = (options?: Partial<SWRConfiguration>) => {
 
   async function logout() {
     await authApi.logout();
-    mutate({}, false);
+    mutate(null, false);
     localStorage.removeItem(StorageKeys.USER_INFO);
   }
 
-  return { profile, error, login, logout, firstLoading };
+  return { profile, error, login, logout, firstLoading, isLoggedIn: Boolean(profile) };
 };

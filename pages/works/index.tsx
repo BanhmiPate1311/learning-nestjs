@@ -1,9 +1,9 @@
 import { MainLayout } from '@/components/layout';
 import { WorkList } from '@/components/work';
 import { WorkFilters } from '@/components/work/work-filters';
-import { useWorkList } from '@/hooks';
+import { useAuth, useWorkList } from '@/hooks';
 import { ListParams, WorkFiltersPayload } from '@/models';
-import { Box, Pagination, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, Button, Pagination, Skeleton, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -11,6 +11,9 @@ export interface WorksPageProps {}
 
 export default function WorksPage(props: WorksPageProps) {
   const router = useRouter();
+  const { isLoggedIn, profile } = useAuth();
+  console.log('profile: ', profile);
+  console.log('isLoggedIn: ', isLoggedIn);
   const filters: Partial<ListParams> = { _page: 1, _limit: 3, ...router.query };
 
   const initFiltersPayload: WorkFiltersPayload = {
@@ -55,11 +58,17 @@ export default function WorksPage(props: WorksPageProps) {
 
   return (
     <Box>
-      <Box mb={4} mt={8}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4} mt={8}>
         <Typography component="h1" variant="h3" fontWeight="bold">
           Work
         </Typography>
-      </Box>
+
+        {isLoggedIn && (
+          <Button variant="contained" onClick={() => router.push('/works/add')}>
+            Add new work
+          </Button>
+        )}
+      </Stack>
 
       {/* router.isReady : chỉ render sau khi router đã được cập nhật */}
       {router.isReady ? (
